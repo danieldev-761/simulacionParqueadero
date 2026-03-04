@@ -5,8 +5,8 @@ espacio_total= 10
 nivel_de_llenado= 5
 vehiculo_encontrado= False
 
-tiene_minus= False
-digito= False
+tiene_minus= None
+no_digito= None
 
 
 i=nivel_de_llenado
@@ -23,71 +23,90 @@ for i in range(espacio_total):
         4. Salir
         
         """)
+        try:
+            opcion= int(input("Ingrese una opción del menú anterior: "))
 
-        opcion= int(input("Ingrese una opción del menú anterior: "))
+            match opcion:
 
-        match opcion:
+                case 1:
+                    if nivel_de_llenado < espacio_total:
 
-            case 1:
-                if nivel_de_llenado < espacio_total:
-                    matricula= input("Ingrese la matrícula del vehículo: ")
-
-                    for char in range(len(matricula)):
-                        if matricula[char].islower():
-                            tiene_minus= True
-                            
-                            
-                        if matricula[char].isdigit():
-                            digito= True
-
-                    if tiene_minus == True:
-                        print("La matrícula no puede contener letras minúsculas. Regresando al menú anterior.")
-                        continue
-
-                    elif digito == False:
-                        print("La matrícula debe contener al menos un dígito. Regresando al menú anterior.")
-                        continue
-
-                   
                         
-                    nivel_de_llenado+=1
-                    matriculas.append(matricula)
-                    print(f"Vehículo con placa {matricula} agregado exitosamente.")
+                        matricula= input("Ingrese la matrícula del vehículo: ")
 
+                        
+                        
+                        for char in range(len(matricula)):
+                            if (matricula[char].islower()) is True:
+                                tiene_minus= True
+                                print("La matrícula no puede contener letras minúsculas. Por favor digite la matricula correcta.")
+                                break
+                                
+                            else:
+                                tiene_minus= False
+                                break
+                                
+                                
+                        for char in range(len(matricula)):
 
-            case 2: 
-                if nivel_de_llenado <= espacio_total:
-                    matricula= input("Ingrese la matrícula del vehículo: ")
+                            if (matricula[char].isdigit()) is True:
+                                digito= True
+                                break
+                                
 
-                    for i in range(len(matriculas)):
-                        if matricula == matriculas[i]:
-                            vehiculo_encontrado= True
-                            print("Vehiculo encontrado")
-                         
-                    if vehiculo_encontrado:
-                        nivel_de_llenado-=1
-                        matriculas.remove(matricula)
-                        print(f"Vehículo con placa {matricula} eliminado exitosamente.")
-
+                            else:
+                                digito= False
+                                print("La matrícula debe contener al menos un dígito. Por favor digite la matricula correcta.")
+                                break
+                                
+                                                                                                                                                        
+                            
+                        if tiene_minus == False or digito == True:
+                            nivel_de_llenado+=1
+                            matriculas.append(matricula)
+                            print(f"Vehículo con placa {matricula} agregado exitosamente.")
+                                
                     else:
-                        print("NO se ha podido encontrar el vehiculo. Regresando al menú anterior")
+                        print("El parqueadero está lleno. No se pueden ingresar más vehículos. Regresando al menú anterior.")
+                        continue
 
-                    
+
+                case 2: 
+                    if nivel_de_llenado <= espacio_total:
+                        matricula= input("Ingrese la matrícula del vehículo: ")
+
+                        for i in range(len(matriculas)):
+                            if matricula == matriculas[i]:
+                                vehiculo_encontrado= True
+                                print("Vehiculo encontrado")
+                            
+                        if vehiculo_encontrado:
+                            nivel_de_llenado-=1
+                            matriculas.remove(matricula)
+                            print(f"Vehículo con placa {matricula} eliminado exitosamente.")
+
+                        else:
+                            print("NO se ha podido encontrar el vehiculo. Regresando al menú anterior")
+
+                        
 
 
-            case 3:
-                print(f"Estado del parqueadero: {nivel_de_llenado} de {espacio_total} espacios ocupados.")
-                print(f"Vehículos en parqueadero: {matriculas}")
+                case 3:
+                    print(f"Estado del parqueadero: {nivel_de_llenado} de {espacio_total} espacios ocupados.")
+                    print(f"Vehículos en parqueadero: {matriculas}")
 
-            case 4:
+                case 4:
 
-                print("Saliendo...")
-                exit()
+                    print("Saliendo...")
+                    exit()
 
-            case _:
-                print("Opción no válida. Por favor, ingrese una opción del menú.")
+                case _:
+                    print("Opción no válida. Por favor, ingrese una opción del menú.")
+            
+        except ValueError:
+            print("Opción no válida. Por favor, ingrese una opción del menú.")
 
-    print("Parqueadero lleno. No se puede agregar más vehículos.")
+        
 
 
     
